@@ -41,7 +41,7 @@ sources_c = [
     os.path.join('07-App','ohlone','ohlone_webpages.c'),
     os.path.join('07-App','rex','rex.c'),
     #os.path.join('07-App','rheli','rheli.c'),
-    os.path.join('07-App','rinfo','rinfo.c'),
+    #os.path.join('07-App','rinfo','rinfo.c'),
     os.path.join('07-App','rrt','rrt.c'),
     os.path.join('07-App','rleds','rleds.c'),
     os.path.join('07-App','rreg','rreg.c'),
@@ -58,6 +58,7 @@ sources_c = [
     os.path.join('07-App','udprand','udprand.c'),
     os.path.join('07-App','udplatency','udplatency.c'),
     os.path.join('07-App','udpstorm','udpstorm.c'),
+    os.path.join('07-App','rrss','rrss.c'),
     #=== cross-layers
     os.path.join('cross-layers','idmanager.c'),
     os.path.join('cross-layers','openqueue.c'),
@@ -100,7 +101,7 @@ sources_h = [
     os.path.join('07-App','r6t','r6t.h'),
     os.path.join('07-App','rex','rex.h'),
     #os.path.join('07-App','rheli','rheli.h'),
-    os.path.join('07-App','rinfo','rinfo.h'),
+    #os.path.join('07-App','rinfo','rinfo.h'),
     os.path.join('07-App','rrt','rrt.h'),
     os.path.join('07-App','rleds','rleds.h'),
     os.path.join('07-App','rreg','rreg.h'),
@@ -117,6 +118,7 @@ sources_h = [
     os.path.join('07-App','udprand','udprand.h'),
     os.path.join('07-App','udplatency','udplatency.h'),
     os.path.join('07-App','udpstorm','udpstorm.h'),
+    os.path.join('07-App','rrss','rrss.h'),
     #=== cross-layers
     os.path.join('cross-layers','idmanager.h'),
     os.path.join('cross-layers','openqueue.h'),
@@ -180,6 +182,7 @@ else:
             os.path.join('#','firmware','openos','openwsn','07-App','udprand'),
             os.path.join('#','firmware','openos','openwsn','07-App','udplatency'),
             os.path.join('#','firmware','openos','openwsn','07-App','udpstorm'),
+            os.path.join('#','firmware','openos','openwsn','07-App','rrss'),
             os.path.join('#','firmware','openos','openwsn','cross-layers'),
         ],
     )

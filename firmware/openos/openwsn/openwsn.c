@@ -55,10 +55,11 @@
 //+++++ CoAP
 //- debug
 //- common
-#include "rinfo.h"
+//#include "rinfo.h"
 #include "rleds.h"
 #include "rwellknown.h"
 #include "r6t.h"
+#include "rrss.h"
 //#include "rrt.h"
 //#include "rex.h"
 //#include "rrube.h"
@@ -133,11 +134,12 @@ void openwsn_init() {
    //- debug
    //- core
    //- common
-   rinfo_init();
+   //rinfo_init();
    //rrt_init();
    rleds__init();
    rwellknown_init();
    r6t_init();
+   rrss_init();
    //rreg_init();
    //rex_init();
    //rrube_init();

@@ -588,7 +588,9 @@ void debugNetPrint_neighbors(netDebugNeigborEntry_t* out){
    uint8_t idxOut;
    
    idxOut=0;
-   for (idxIn=0;idxIn<MAXNUMNEIGHBORS;idxIn++) {
+   // Only print first neighbor
+   //for (idxIn=0;idxIn<MAXNUMNEIGHBORS;idxIn++) {
+   for (idxIn=0;idxIn<1;idxIn++) {
       if(neighbors_vars.neighbors[idxIn].used) {
          out[idxOut].last_addr_byte = neighbors_vars.neighbors[idxIn].addr_64b.addr_64b[7];//last byte of the address; poipoi could be [0]; endianness
          out[idxOut].rssi = neighbors_vars.neighbors[idxIn].rssi;
