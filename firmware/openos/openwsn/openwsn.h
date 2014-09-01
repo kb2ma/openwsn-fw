@@ -35,6 +35,7 @@ static const uint8_t infoStackName[] = "OpenWSN ";
 #define LENGTH_ADDR64b  8
 #define LENGTH_ADDR128b 16
 
+
 enum {
    E_SUCCESS                           = 0,
    E_FAIL                              = 1,
@@ -106,7 +107,8 @@ enum {
    STATUS_BACKOFF                      =  7,
    STATUS_QUEUE                        =  8,
    STATUS_NEIGHBORS                    =  9,
-   STATUS_MAX                          = 10,
+   STATUS_KAPERIOD                     = 10,
+   STATUS_MAX                          = 11,
 };
 
 //component identifiers
