@@ -111,7 +111,7 @@ void rrss_task() {
    memcpy(&pkt->payload[0],&rrss_path0,sizeof(rrss_path0)-1);
    packetfunctions_reserveHeaderSize(pkt,1);
    pkt->payload[0]                  = (COAP_OPTION_NUM_URIPATH) << 4 |
-      sizeof(rrss_path0)-1;
+      (sizeof(rrss_path0)-1);
    numOptions++;
    // content-type option
    //packetfunctions_reserveHeaderSize(pkt,2);
