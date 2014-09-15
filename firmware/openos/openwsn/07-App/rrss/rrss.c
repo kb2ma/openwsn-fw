@@ -37,6 +37,8 @@ void      rrss_task(void);
 void      rrss_timer(void);
 void      rrss_sendDone(OpenQueueEntry_t* msg,
                         owerror_t error);
+uint8_t   write_int(int val, uint8_t buf[]);
+void      reverse(uint8_t* start, uint8_t* end);
 
 //=========================== public ==========================================
 
@@ -74,9 +76,10 @@ void rrss_timer() {
 void rrss_task() {    
    OpenQueueEntry_t* pkt;
    owerror_t         outcome;
-   uint8_t           numOptions;
+   uint8_t           numOptions, i;
    netDebugNeigborEntry_t neighbor;
-   
+   uint8_t           rssbuf[4];
+
    // don't run if not synch
    if (ieee154e_isSynch() == FALSE) return;
    
@@ -98,13 +101,26 @@ void rrss_task() {
    // take ownership over that packet
    pkt->creator    = COMPONENT_RRSS;
    pkt->owner      = COMPONENT_RRSS;
-   // CoAP payload (1 byte for rss)
-   packetfunctions_reserveHeaderSize(pkt,2);
+   // CoAP payload
+   packetfunctions_reserveHeaderSize(pkt,1);
    pkt->payload[0] = COAP_PAYLOAD_MARKER;
+   
    memset(&neighbor, 0, sizeof(netDebugNeigborEntry_t));
    debugNetPrint_neighbors(&neighbor);
-   //pkt->payload[1] = neighbor.rssi;
-   pkt->payload[1] = (uint8_t)(neighbor.rssi + 128);
+   
+   packetfunctions_reserveHeaderSize(pkt,5);
+   pkt->payload[0] = '{';
+   pkt->payload[1] = '"';
+   pkt->payload[2] = 'v';
+   pkt->payload[3] = '"';
+   pkt->payload[4] = ':';
+   
+   i = write_int(neighbor.rssi, rssbuf);
+   packetfunctions_reserveHeaderSize(pkt,i+1);
+   memcpy(&pkt->payload[0],&rssbuf[0],i);
+   
+   pkt->payload[i] = '}';
+   
    numOptions = 0;
    // location-path option
    packetfunctions_reserveHeaderSize(pkt,sizeof(rrss_path0)-1);
@@ -114,11 +130,10 @@ void rrss_task() {
       (sizeof(rrss_path0)-1);
    numOptions++;
    // content-type option
-   //packetfunctions_reserveHeaderSize(pkt,2);
-   //pkt->payload[0]                  = COAP_OPTION_NUM_CONTENTFORMAT << 4 |
-   //   1;
-   //pkt->payload[1]                  = COAP_MEDTYPE_APPOCTETSTREAM;
-   //numOptions++;
+   packetfunctions_reserveHeaderSize(pkt,2);
+   pkt->payload[0]                  = COAP_OPTION_NUM_CONTENTFORMAT << 4 | 1;
+   pkt->payload[1]                  = COAP_MEDTYPE_APPJSON;
+   numOptions++;
    // metadata
    pkt->l4_destination_port         = WKP_UDP_COAP;
    pkt->l3_destinationAdd.type = ADDR_128B;
@@ -139,4 +154,43 @@ void rrss_task() {
 
 void rrss_sendDone(OpenQueueEntry_t* msg, owerror_t error) {
    openqueue_freePacketBuffer(msg);
+}
+
+/** 
+ * Writes the provided value as ASCII chars to the provided buffer. Returns
+ * the count of characters written.
+ */
+uint8_t write_int(int val, uint8_t buf[]) {
+   int sign;
+   uint8_t i;
+
+   sign = val;
+   if (sign < 0) {
+      val = -val;
+   }
+
+   // Generates digits little end first, and then reverses
+   i = 0;
+   do {
+      buf[i++] = val % 10 + '0';
+      val   /= 10;
+   } while (val > 0);
+   
+   if (sign < 0) {
+      buf[i++] = '-';
+   }
+   reverse(&buf[0], &buf[i-1]);
+   
+   return i;
+}
+
+/** Reverses buffer in place  */
+void reverse(uint8_t* start, uint8_t* end) {
+   uint8_t c;
+
+   while(start < end) {
+      c        = *start;
+      *start++ = *end;
+      *end--   = c;
+   }
 }
