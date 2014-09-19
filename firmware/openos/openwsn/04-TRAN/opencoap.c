@@ -401,7 +401,8 @@ This function is NOT called for a response.
    CoAP header.
 \param[in] type The CoAP type of the message.
 \param[in] code The CoAP code of the message.
-\param[in] TKL  The Token Length of the message.
+\param[in] TKL  The Token Length of the message. Presently ignored; uses a
+                hard-coded token.
 \param[out] descSender A pointer to the description of the calling CoAP
    resource.
 
@@ -429,9 +430,9 @@ owerror_t opencoap_send(
    
    // pre-pend CoAP header (version,type,TKL,code,messageID,Token)
    packetfunctions_reserveHeaderSize(msg,5);
-   msg->payload[0]                  = (COAP_VERSION   << 6) |
-                                      (type           << 4) |
-                                      (TKL            << 0);
+   msg->payload[0]                  = (COAP_VERSION       << 6) |
+                                      (type               << 4) |
+                                      (1                  << 0); 
    msg->payload[1]                  = code;
    msg->payload[2]                  = (opencoap_vars.messageID>>8) & 0xff;
    msg->payload[3]                  = (opencoap_vars.messageID>>0) & 0xff;

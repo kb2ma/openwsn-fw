@@ -60,6 +60,7 @@ sources_c = [
     os.path.join('07-App','udplatency','udplatency.c'),
     os.path.join('07-App','udpstorm','udpstorm.c'),
     os.path.join('07-App','rrss','rrss.c'),
+    os.path.join('07-App','rrss','jsonpayload.c'),
     #=== cross-layers
     os.path.join('cross-layers','idmanager.c'),
     os.path.join('cross-layers','openqueue.c'),
@@ -121,6 +122,7 @@ sources_h = [
     os.path.join('07-App','udplatency','udplatency.h'),
     os.path.join('07-App','udpstorm','udpstorm.h'),
     os.path.join('07-App','rrss','rrss.h'),
+    os.path.join('07-App','rrss','jsonpayload.h'),
     #=== cross-layers
     os.path.join('cross-layers','idmanager.h'),
     os.path.join('cross-layers','openqueue.h'),
