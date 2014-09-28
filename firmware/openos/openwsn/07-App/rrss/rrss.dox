@@ -1,0 +1,18 @@
+/**
+\defgroup rRss rRss
+
+\brief CoAP RSS monitoring application
+
+POSTs RSS values periodically to the \c /rss path on the CoAP server at 
+the statically defined \c ipAddr_monServer.
+
+Message payload is a single object with these attributes:
+- s: RSS value
+- r: Rank in the DODAG
+
+Also includes a generic \c jsonpayload module to write the message payload as 
+JSON text. This module eventually may be moved to a more accessible place in the 
+source tree.
+
+\author Ken Bannister <kb2ma@runbox.com>, September 2014
+*/

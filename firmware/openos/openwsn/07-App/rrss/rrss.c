@@ -109,7 +109,10 @@ void rrss_task() {
    debugNetPrint_neighbors(&neighbor);
    json_writeAttributeInt8Value(pkt, neighbor.rssi);
 
-   json_writeAttributeName(pkt, "v", 1);
+   json_writeAttributeName(pkt, "s", 1);
+
+   json_writeAttributeUint16Value(pkt, neighbors_getMyDAGrank());
+   json_writeAttributeName(pkt, "r", 1);
    json_startObject(pkt);
    
    packetfunctions_reserveHeaderSize(pkt,1);
@@ -131,7 +134,7 @@ void rrss_task() {
    // metadata
    pkt->l4_destination_port         = WKP_UDP_COAP;
    pkt->l3_destinationAdd.type = ADDR_128B;
-   memcpy(&pkt->l3_destinationAdd.addr_128b[0],&ipAddr_motesEecs,16);
+   memcpy(&pkt->l3_destinationAdd.addr_128b[0],&ipAddr_monServer,16);
    // send
    outcome = opencoap_send(pkt,
                            COAP_TYPE_NON,
