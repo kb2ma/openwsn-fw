@@ -18,7 +18,8 @@
 /// inter-packet period (in mseconds)
 #define RRSSPERIOD     60000
 
-const uint8_t rrss_path0[] = "rss";
+const uint8_t rrss_path0[]  = "rss";
+const uint8_t rrss_moteId[] = "M5";
 
 //=========================== variables =======================================
 
@@ -125,6 +126,11 @@ void rrss_task() {
                      | 1;
    pkt->payload[1] = COAP_MEDTYPE_APPJSON;
    numOptions++;
+   // location-path option -- mote ID param
+   packetfunctions_reserveHeaderSize(pkt,sizeof(rrss_moteId)-1);
+   memcpy(&pkt->payload[0],&rrss_moteId,sizeof(rrss_moteId)-1);
+   packetfunctions_reserveHeaderSize(pkt,1);
+   pkt->payload[0] = 0 << 4 | (sizeof(rrss_moteId)-1);
    // location-path option
    packetfunctions_reserveHeaderSize(pkt,sizeof(rrss_path0)-1);
    memcpy(&pkt->payload[0],&rrss_path0,sizeof(rrss_path0)-1);
