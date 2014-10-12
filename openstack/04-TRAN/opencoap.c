@@ -431,7 +431,7 @@ owerror_t opencoap_send(
    packetfunctions_reserveHeaderSize(msg,5);
    msg->payload[0]                  = (COAP_VERSION   << 6) |
                                       (type           << 4) |
-                                      (TKL            << 0);
+                                      (1              << 0);
    msg->payload[1]                  = code;
    msg->payload[2]                  = (opencoap_vars.messageID>>8) & 0xff;
    msg->payload[3]                  = (opencoap_vars.messageID>>0) & 0xff;
