@@ -19,7 +19,7 @@
 #define RRSSPERIOD     60000
 
 const uint8_t rrss_path0[]  = "rss";
-const uint8_t rrss_moteId[] = "M5";
+const uint8_t rrss_moteId[] = "m5";
 
 //=========================== variables =======================================
 
