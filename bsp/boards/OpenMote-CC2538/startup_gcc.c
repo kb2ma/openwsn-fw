@@ -37,8 +37,8 @@
 //****************************************************************************/
 
 #include <headers/hw_nvic.h>
-#include <stdint.h>
 
+#include <stdint.h>
 
 #define FLASH_START_ADDR                0x00200000
 #define BOOTLOADER_BACKDOOR_ENABLE      0xF6FFFFFF // ENABLED: PORT A, PIN 6, LOW
@@ -68,7 +68,7 @@ void IntDefaultHandler(void);
 // Reserve space for the system stack.
 //
 //*****************************************************************************
-static uint32_t pui32Stack[128];
+static uint32_t pui32Stack[512];
 
 //*****************************************************************************
 //
@@ -92,7 +92,6 @@ const lockPageCCA_t __cca =
   0,               				// Image valid bytes
   FLASH_START_ADDR 				// Vector table located at flash start address
 };
-
 
 __attribute__ ((section(".vectors"), used))
 void (* const gVectors[])(void) =
@@ -361,5 +360,4 @@ ResetISR (void)
    {
    }
 }
-
 
