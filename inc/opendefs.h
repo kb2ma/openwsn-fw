@@ -157,6 +157,7 @@ enum {
    COMPONENT_TOHLONE                   = 0x21,
    COMPONENT_UECHO                     = 0x22,
    COMPONENT_RRT                       = 0x23,
+   COMPONENT_CNETHEAD                  = 0X30,
 };
 
 /**
