@@ -14,7 +14,7 @@
 \addtogroup nethead
 \{
 \defgroup json json
-\brief Functions to write JSON encoded data to a payload
+\brief Functions to write JSON encoded data to a payload.
 
 Writes directly to a packet, and so is designed to add sytactic elements in reverse
 order. Internally maintains the state of JSON syntax.

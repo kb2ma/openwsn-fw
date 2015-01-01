@@ -70,7 +70,11 @@ void hello_init() {
 owerror_t hello_receive(OpenQueueEntry_t* msg,
                       coap_header_iht* coap_header,
                       coap_option_iht* coap_options) {
-   // No supported requests; return an error message
+   
+   // Expecting a response: a NON message from nethead_home_addr with the expected 
+   // token. Must track/fix tokens -- but that is a separate issue.
+   
+   // Then stop the periodic timer.
    return E_FAIL;
 }
 
@@ -82,7 +86,6 @@ void hello_timer() {
 void hello_task() {    
    OpenQueueEntry_t* pkt;
    owerror_t         outcome;
-   uint8_t           eui[8];
 
    // don't run if not synch
    if (ieee154e_isSynch() == FALSE) return;
@@ -105,23 +108,6 @@ void hello_task() {
    // take ownership over that packet
    pkt->creator    = COMPONENT_CNETHEAD;
    pkt->owner      = COMPONENT_CNETHEAD;
-   
-   // CoAP payload
-   // write eui64
-   json_endObject(pkt);
-   eui64_get(&eui[0]);
-   json_writeAttributeArray(pkt, &eui[0], 8);
-   json_writeAttributeName(pkt, "e", 1);
-   json_startObject(pkt);
-   
-   packetfunctions_reserveHeaderSize(pkt,1);
-   pkt->payload[0] = COAP_PAYLOAD_MARKER;
-   
-   // content-format option
-   packetfunctions_reserveHeaderSize(pkt,2);
-   pkt->payload[0] = (COAP_OPTION_NUM_CONTENTFORMAT - COAP_OPTION_NUM_URIPATH) << 4 
-                     | 1;
-   pkt->payload[1] = COAP_MEDTYPE_APPJSON;
 
    // location-path option
    packetfunctions_reserveHeaderSize(pkt,sizeof(hello_path1)-1);
@@ -138,7 +124,7 @@ void hello_task() {
    memcpy(&pkt->l3_destinationAdd.addr_128b[0],&nethead_home_addr[0],16);
    // send
    outcome = opencoap_send(pkt,
-                           COAP_TYPE_CON,
+                           COAP_TYPE_NON,
                            COAP_CODE_REQ_POST,
                            0,
                            &hello_vars.desc);
