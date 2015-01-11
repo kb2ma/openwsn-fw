@@ -71,11 +71,8 @@ owerror_t hello_receive(OpenQueueEntry_t* msg,
                       coap_header_iht* coap_header,
                       coap_option_iht* coap_options) {
    
-   // Expecting a response: a NON message from nethead_home_addr with the expected 
-   // token. Must track/fix tokens -- but that is a separate issue.
-   
-   // Then stop the periodic timer.
-   return E_FAIL;
+   opentimers_stop(hello_vars.timerId);
+   return E_SUCCESS;
 }
 
 void hello_timer() {
@@ -126,7 +123,7 @@ void hello_task() {
    outcome = opencoap_send(pkt,
                            COAP_TYPE_NON,
                            COAP_CODE_REQ_POST,
-                           0,
+                           2,
                            &hello_vars.desc);
    // avoid overflowing the queue if fails
    if (outcome==E_FAIL) {
