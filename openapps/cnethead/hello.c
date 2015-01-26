@@ -18,7 +18,7 @@
 #include "scheduler.h"
 #include "jsonpayload.h"
 #include "eui64.h"
-
+#include "cnethead.h"
 
 //=========================== defines =========================================
 
@@ -27,10 +27,6 @@
 
 const uint8_t hello_path0[]  = "nh";
 const uint8_t hello_path1[]  = "lo";
-
-// Address of the nethead client for phone home
-static const uint8_t nethead_home_addr[] = {0xfd, 0xc8, 0x70, 0xa6, 0x51, 0x1c, 0x00, 0x00, \
-                                            0x22, 0x1a, 0x06, 0xff, 0xfe, 0x03, 0xca, 0xf6};
 
 //=========================== variables =======================================
 
@@ -72,6 +68,7 @@ owerror_t hello_receive(OpenQueueEntry_t* msg,
                       coap_option_iht* coap_options) {
    
    opentimers_stop(hello_vars.timerId);
+   cnethead_notify_registered();
    return E_SUCCESS;
 }
 

@@ -178,6 +178,21 @@ open_addr_t* neighbors_getKANeighbor(uint16_t kaPeriod) {
    }
 }
 
+/**
+\brief Provide indexed access to information collected about a neighbor.
+
+If the index is used, the 'used' attribute of the neighbor will be TRUE.
+
+\param[out] neighbor Address for neighbor data struct
+\param[in]  index Index within the list of neighbors (max MAXNUMNEIGHBORS)
+ */
+void neighbors_getNeighborInfo(neighborRow_t* neighbor, uint8_t index) {
+   if (index < MAXNUMNEIGHBORS) {
+       memcpy(neighbor, &neighbors_vars.neighbors[index], sizeof(neighborRow_t));
+   }
+}
+
+
 //===== interrogators
 
 /**

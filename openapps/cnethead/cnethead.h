@@ -19,9 +19,14 @@
 \{
 */
 
-#include "opencoap.h"
+#include "opendefs.h"
 
 //=========================== define ==========================================
+
+/**
+\brief Address of the nethead client for phone home 
+*/
+extern const uint8_t nethead_home_addr[];
 
 //=========================== typedef =========================================
 
@@ -30,6 +35,8 @@
 //=========================== prototypes ======================================
 
 void cnethead_init(void);
+
+void cnethead_notify_registered(void);
 
 /**
 \}

@@ -21,8 +21,8 @@
 
 When the mote boots, 'hello' schedules POSTing `nh/lo` to an internally designated 
 host (nethead_home_addr[]), that is a client for monitoring and management. 
-The POST includes the eui64 for this mote, and expects a response that includes 
-a short ID that this mote will use to identify itself in future messages.
+
+\author Ken Bannister <kb2ma@runbox.com>, December 2014.
 \{
 */
 
