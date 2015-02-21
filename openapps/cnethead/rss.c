@@ -104,21 +104,18 @@ void rss_task() {
    pkt->owner      = COMPONENT_CNETHEAD;
    
    // CoAP payload
-   // get first RSS value and write it
+   // Write RSS values. We expect at least one value, but allow an empty list.
+   json_endObject(pkt);
+
    for (i=0;i<MAXNUMNEIGHBORS;i++) {
       neighbors_getNeighborInfo(&neighbor, i);
       if (neighbor.used==TRUE) {
-         json_endObject(pkt);
          json_writeAttributeInt8Value(pkt, neighbor.rssi);
-         json_writeAttributeName(pkt, "s", 1);
          json_writeAttributeArray(pkt, &neighbor.addr_64b.addr_64b[6], 2);
-         json_writeAttributeName(pkt, "n", 1);
-         json_startObject(pkt);
-         break;
       }
    }
+   json_startObject(pkt);
    
-   // TODO payload and content type only necessary if found a neighbor
    packetfunctions_reserveHeaderSize(pkt,1);
    pkt->payload[0] = COAP_PAYLOAD_MARKER;
    

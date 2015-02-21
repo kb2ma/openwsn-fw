@@ -89,7 +89,8 @@ void json_writeAttributeInt8Value(OpenQueueEntry_t* pkt, int8_t value) {
 }
 
 /**
-\brief Writes the provided array of unit8_t as a hex string, 
+\brief Writes the provided array of unit8_t as a hex string. May be used as an
+attribute value or a name.
 
 \param[in] pkt Writes to the payload member of this packet
 \param[in] array Array to write
@@ -101,6 +102,9 @@ void json_writeAttributeArray(OpenQueueEntry_t* pkt, uint8_t* array, uint8_t len
    if (write_state == WRITE_STATE_NAME) {
       packetfunctions_reserveHeaderSize(pkt,1);
       pkt->payload[0] = ',';
+   } else if (write_state == WRITE_STATE_VALUE) {
+      packetfunctions_reserveHeaderSize(pkt,1);
+      pkt->payload[0] = ':';
    }
 
    packetfunctions_reserveHeaderSize(pkt, length*2 + 2);
@@ -115,7 +119,13 @@ void json_writeAttributeArray(OpenQueueEntry_t* pkt, uint8_t* array, uint8_t len
       pkt->payload[j++] = digit + (digit>9 ? 'a'-10 : '0');
    }
    pkt->payload[j] = '"';
-   write_state = WRITE_STATE_VALUE;
+
+   if (write_state == WRITE_STATE_VALUE) {
+      write_state = WRITE_STATE_NAME;
+   } else {
+      // in state END_OBJECT or NAME 
+      write_state = WRITE_STATE_VALUE;
+   }
 }
 
 //=========================== private =========================================
