@@ -217,6 +217,7 @@ void cjoin_task_cb(void) {
     }
 
     // arm the retransmission timer
+    /*
     opentimers_scheduleIn(
         cjoin_vars.timerId,
         (uint32_t) TIMEOUT,
@@ -224,12 +225,18 @@ void cjoin_task_cb(void) {
         TIMER_ONESHOT,
         cjoin_retransmission_cb
     );
+    */
 
     // init the security context only here in order to use the latest joinKey
     // that may be set over the serial
     cjoin_init_security_context();
 
-    cjoin_sendJoinRequest(joinProxy);
+    //cjoin_sendJoinRequest(joinProxy);
+    uint8_t secret[16] = {0x15, 0x38, 0xb6, 0x9a, 0x00, 0xbd, 0xa9, 0x17,
+                          0x14, 0x50, 0x1c, 0xf6, 0x67, 0x76, 0x62, 0xc1};
+    IEEE802154_security_setBeaconKey(0x01, secret);
+    IEEE802154_security_setDataKey(0x01, secret);
+    cjoin_setIsJoined(TRUE); // declare join is over
 }
 
 void cjoin_sendDone(OpenQueueEntry_t* msg, owerror_t error) {
